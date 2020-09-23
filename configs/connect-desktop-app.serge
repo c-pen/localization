@@ -1,0 +1,55 @@
+sync
+{
+    ts
+    {
+        @inherit                                common.serge.inc#common-settings/ts
+
+        data
+        {
+            project_id                          7b49cb9b-69f2-4d4a-b400-fe7a5e2b0f86
+        }
+    }
+
+    vcs
+    {
+        @inherit                                common.serge.inc#common-settings/vcs
+
+        data
+        {
+            local_path                          ../vcs/connect-desktop-app
+            remote_path                         ssh://git@github.com/c-pen/connect-desktop-app.git#develop
+        }
+    }
+}
+
+jobs
+{
+    {
+        @inherit                                common.serge.inc#common-settings/job
+
+        name                                    Localize JavaScript files for project 'connect-desktop-app'
+        id                                      connect-desktop-app.js
+        db_namespace                            connect-desktop-app
+
+        /*
+        Destination (target) languages must be recognized by Smartcat.
+        See https://smartcat.ai/Home/Languages
+        */
+        destination_languages                   da de-DE es-ES fr-FR it-IT nb nl-NL pt-PT ru-RU sv
+
+        source_dir                              ../vcs/connect-desktop-app/resources/localization
+        source_match                            ^en\.js$
+        source_process_subdirs                  YES
+
+        leave_untranslated_blank                NO
+
+        output_file_path                        ../vcs/connect-desktop-app/resources/localization/%LANG%.%EXT%
+
+        ts_file_path                            ../ts/connect-desktop-app/%LANG%/connect-desktop-app.po
+
+        parser
+        {
+            plugin                              parse_js
+        }
+    }
+}
