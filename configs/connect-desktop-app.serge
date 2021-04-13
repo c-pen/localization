@@ -24,12 +24,47 @@ sync
 
 jobs
 {
+    /*
+     * NOTE: Only the last job seems to be uploaded to smartcat. No idea why but something must be wrong with the job config?
+     * Should not be a problem as long as all translations are available in "connect-desktop-app/resources/localization" files
+     * /Johannes Bluml 2021-04-13
+     */
+    {
+        @inherit                                common.serge.inc#common-settings/job
+
+        name                                    Localize Android files for project 'connect-desktop-app'
+        id                                      connect-desktop-app.android
+        db_namespace                            connect-desktop-app-android
+        debug                                   YES
+
+        /*
+        Destination (target) languages must be recognized by Smartcat.
+        See https://smartcat.ai/Home/Languages
+        */
+        destination_languages                   da de-DE es-ES fr-FR it-IT nb nl-NL pt-PT ru-RU sv
+
+        source_dir                              ../vcs/connect-desktop-app/android/app/src/main/res/values
+        source_match                            ^strings\.xml$
+        source_process_subdirs                  NO
+
+        leave_untranslated_blank                YES
+
+        output_file_path                        ../vcs/connect-desktop-app/android/app/src/main/res/values-%LOCALE:ANDROID%/strings.xml
+
+        ts_file_path                            ../ts/connect-desktop-app/%LANG%/connect-desktop-app.po
+
+        parser
+        {
+            plugin                              parse_android
+        }
+    }
     {
         @inherit                                common.serge.inc#common-settings/job
 
         name                                    Localize JavaScript files for project 'connect-desktop-app'
         id                                      connect-desktop-app.js
         db_namespace                            connect-desktop-app
+        debug                                   YES
 
         /*
         Destination (target) languages must be recognized by Smartcat.
