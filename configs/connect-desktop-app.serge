@@ -61,6 +61,49 @@ jobs
     {
         @inherit                                common.serge.inc#common-settings/job
 
+        name                                    Localize IOS files for project 'connect-desktop-app'
+        id                                      connect-desktop-app.ios
+        db_namespace                            connect-desktop-app-ios
+        debug                                   YES
+
+        /*
+        Destination (target) languages must be recognized by Smartcat.
+        See https://smartcat.ai/Home/Languages
+        */
+        destination_languages                   da de-DE es-ES fr-FR it-IT nb nl-NL pt-PT ru-RU sv
+
+        # [OPTIONAL] Map telling to use different language name in language macros
+        # (see the list of available macros in `ts_file_path` parameter description)
+        # and when constructing output path (see `output_file_path` parameter).
+        # This allows to tweak language/locale names for different projects.
+        output_lang_rewrite
+        {
+            de-DE       de
+            es-ES       es
+            fr-FR       fr
+            it-IT       it
+            nl-NL       nl
+            ru-RU       ru
+        }
+
+        source_dir                              ../vcs/connect-desktop-app/ios/App/App/en.lproj
+        source_match                            ^Localizable\.strings$
+        source_process_subdirs                  NO
+
+        leave_untranslated_blank                YES
+
+        output_file_path                        ../vcs/connect-desktop-app/ios/App/App/%LANG%.lproj/Localizable.strings
+
+        ts_file_path                            ../ts/connect-desktop-app/%LANG%/connect-desktop-app.po
+
+        parser
+        {
+            plugin                              parse_strings
+        }
+    }
+    {
+        @inherit                                common.serge.inc#common-settings/job
+
         name                                    Localize JavaScript files for project 'connect-desktop-app'
         id                                      connect-desktop-app.js
         db_namespace                            connect-desktop-app
