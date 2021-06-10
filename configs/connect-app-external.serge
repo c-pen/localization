@@ -1,0 +1,55 @@
+sync
+{
+    ts
+    {
+        @inherit                                common.serge.inc#common-settings/ts
+
+        data
+        {
+            project_id                          d64707b6-c030-4638-975f-2a9cef1487ae
+        }
+    }
+
+    vcs
+    {
+        @inherit                                common.serge.inc#common-settings/vcs
+
+        data
+        {
+            local_path                          ../vcs/connect-desktop-app
+            remote_path                         ssh://git@github.com/c-pen/connect-desktop-app.git#develop
+        }
+    }
+}
+
+jobs
+{
+    /*
+     * NOTE: Only the last job seems to be uploaded to smartcat.
+     */
+    {
+        @inherit                                common.serge.inc#common-settings/job
+
+        name                                    Localize JavaScript files for project 'connect-app-external'
+        id                                      connect-app-external.js
+        db_namespace                            connect-app-external
+        debug                                   YES
+
+        destination_languages                   da de-DE es-ES fr-FR it-IT nb nl-NL pt-PT ru-RU sv
+
+        source_dir                              ../vcs/connect-desktop-app/resources/external-localization
+        source_match                            ^en\.js$
+        source_process_subdirs                  YES
+
+        leave_untranslated_blank                NO
+
+        output_file_path                        ../vcs/connect-desktop-app/resources/external-localization/%LANG%.%EXT%
+
+        ts_file_path                            ../ts/external-localization/%LANG%/external-localization.po
+
+        parser
+        {
+            plugin                              parse_js
+        }
+    }
+}
