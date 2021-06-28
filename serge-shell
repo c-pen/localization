@@ -10,4 +10,5 @@ docker run \
     -it \
     --entrypoint boot/serge-shell.sh \
     --env PS1="\[\033[01;35m\][Serge Shell]\[\033[00m\] \w \$ " \
+    --platform=linux/amd64 \
     smartcatcom/serge
